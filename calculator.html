@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Calculator</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #b8b3b3;
+}
+
+.calculator {
+    width: 430px;
+    background: #f7e3e3;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgb(154, 88, 88);
+    overflow: hidden;
+}
+
+.header {
+    background: #2c3e50;
+    color: rgb(163, 212, 158);
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.display {
+    background: rgb(160, 170, 170);
+    padding: 30px 20px;
+    text-align: right;
+    font-size: 48px;
+    color: #948484;
+    min-height: 100px;
+    word-wrap: break-word;
+    border-radius: 10px;
+    margin: 15px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 15px;
+    padding-top: 0;
+}
+
+button {
+    border: none;
+    outline: none;
+    padding: 20px;
+    font-size: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 500;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.num, .dot {
+    background: rgb(3, 50, 104);
+    color: rgb(240, 237, 241);
+}
+
+.num.zero {
+    grid-column: span 2;
+}
+
+.operator {
+    background: #f39c12;
+    color: rgb(145, 122, 122);
+    font-size: 26px;
+}
+
+.clear, .del, .percent {
+    background: #62cae4;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="header">SIMPLE CALCULATOR</div>
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button class="del" onclick="deleteLast()">DEL</button>
+        <button class="percent" onclick="appendValue('%')">%</button>
+        <button class="operator" onclick="appendValue('/')">÷</button>
+
+        <button class="num" onclick="appendValue('7')">7</button>
+        <button class="num" onclick="appendValue('8')">8</button>
+        <button class="num" onclick="appendValue('9')">9</button>
+        <button class="operator" onclick="appendValue('*')">×</button>
+
+        <button class="num" onclick="appendValue('4')">4</button>
+        <button class="num" onclick="appendValue('5')">5</button>
+        <button class="num" onclick="appendValue('6')">6</button>
+        <button class="operator" onclick="appendValue('-')">−</button>
+
+        <button class="num" onclick="appendValue('1')">1</button>
+        <button class="num" onclick="appendValue('2')">2</button>
+        <button class="num" onclick="appendValue('3')">3</button>
+        <button class="operator" onclick="appendValue('+')">+</button>
+
+        <button class="num zero" onclick="appendValue('0')">0</button>
+        <button class="dot" onclick="appendValue('.')">.</button>
+        <button class="operator" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+let display = document.getElementById('display');
+let currentInput = '0';
+
+function updateDisplay() {
+    display.innerText = currentInput;
+}
+
+function appendValue(value) {
+    if (currentInput === '0' && value !== '.') {
+        currentInput = value;
+    } else {
+        currentInput += value;
+    }
+    updateDisplay();
+}
+
+function clearDisplay() {
+    currentInput = '0';
+    updateDisplay();
+}
+
+function deleteLast() {     
+    if (currentInput.length > 1) {
+        currentInput = currentInput.slice(0, -1);
+    } else {
+        currentInput = '0';
+    }
+    updateDisplay()
+}
+function calculate() {
+    try {
+        let result = eval(currentInput);
+        currentInput = result.toString();
+        updateDisplay();
+    } catch {
+        currentInput = 'Error';
+        updateDisplay();
+        setTimeout(clearDisplay, 1500);
+    }
+}
+    </script>
+</body>
+</html>
